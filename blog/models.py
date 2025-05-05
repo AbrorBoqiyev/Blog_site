@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.urls import reverse
 
 
 class PublishedManager(models.Manager):
@@ -35,6 +36,12 @@ class Post(models.Model):
     
     objects = models.Manager()
     published = PublishedManager()
+
+    def get_absolute_url(self):
+        return reverse("blog:post_detail", args=[self.publish.year,
+                                                 self.publish.month,
+                                                 self.publish.day,
+                                                 self.slug])
     
-posts = Post.objects.filter(status='published')
-p_post = Post.published.all()
+# posts = Post.objects.filter(status='published')
+# p_post = Post.published.all()
